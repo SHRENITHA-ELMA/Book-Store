@@ -5,15 +5,14 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.*;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
+import lombok.Data;
 import org.threeten.bp.LocalDate;
 import org.springframework.validation.annotation.Validated;
 import org.openapitools.jackson.nullable.JsonNullable;
 import io.swagger.configuration.NotUndefined;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -24,7 +23,6 @@ import javax.validation.constraints.*;
 @NotUndefined
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2024-11-14T18:38:18.191886612Z[GMT]")
 @Entity
-
 public class Book   {
 //  @JsonProperty("id")
 //
@@ -63,39 +61,62 @@ public class Book   {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
 
+  @NotNull
+  @Size(min = 1, message = "Book name cannot be empty")
+  @Column(unique = true)
+  private String bookName;
+
+  @NotNull(message = "Genre cannot be null")  // Field should not be null
+  @Size(min = 1, message = "Genre cannot be empty")
+  @Column(nullable = false)
   private String genre;
 
+  @NotNull(message = "Author cannot be null")  // Field should not be null
+  @Size(min = 1, message = "Author cannot be empty")
+  @Column(nullable = false)
   private String authors;
 
-  private String skill;
+//  @NotNull(message = "Skill cannot be null")  // Field should not be null
+//  @Size(min = 1, message = "Skill cannot be empty")
+//  @Column(nullable = false)
+//  private String skill;
 
+  @NotNull(message = "Availability cannot be null")
+  @Column(nullable = false,columnDefinition = "boolean default true")
   private boolean available;
 
+  @Column(nullable = false)
+  @NotNull(message = "Published date cannot be null")
+  @JsonFormat(pattern = "yyyy-MM-dd")
   private LocalDate publishedDate;
-  public Book id(Integer id) { 
+
+  public Book id(Integer id) {
 
     this.id = id;
     return this;
+  }
+
+  public Book() {
   }
 
   /**
    * Get id
    * @return id
    **/
-  
+
   @Schema(description = "")
-  
-  public Integer getId() {  
+
+  public Integer getId() {
     return id;
   }
 
 
 
-  public void setId(Integer id) { 
+  public void setId(Integer id) {
     this.id = id;
   }
 
-  public Book genre(String genre) { 
+  public Book genre(String genre) {
 
     this.genre = genre;
     return this;
@@ -105,20 +126,20 @@ public class Book   {
    * Get genre
    * @return genre
    **/
-  
+
   @Schema(description = "")
-  
-  public String getGenre() {  
+
+  public String getGenre() {
     return genre;
   }
 
 
 
-  public void setGenre(String genre) { 
+  public void setGenre(String genre) {
     this.genre = genre;
   }
 
-  public Book authors(String authors) { 
+  public Book authors(String authors) {
 
     this.authors = authors;
     return this;
@@ -128,20 +149,20 @@ public class Book   {
    * Get authors
    * @return authors
    **/
-  
+
   @Schema(description = "")
-  
-  public String getAuthors() {  
+
+  public String getAuthors() {
     return authors;
   }
 
 
 
-  public void setAuthors(String authors) { 
+  public void setAuthors(String authors) {
     this.authors = authors;
   }
 
-  public Book available(Boolean available) { 
+  public Book available(Boolean available) {
 
     this.available = available;
     return this;
@@ -151,20 +172,20 @@ public class Book   {
    * Get available
    * @return available
    **/
-  
+
   @Schema(description = "")
-  
-  public Boolean isAvailable() {  
+
+  public Boolean isAvailable() {
     return available;
   }
 
 
 
-  public void setAvailable(Boolean available) { 
+  public void setAvailable(Boolean available) {
     this.available = available;
   }
 
-  public Book publishedDate(LocalDate publishedDate) { 
+  public Book publishedDate(LocalDate publishedDate) {
 
     this.publishedDate = publishedDate;
     return this;
@@ -174,17 +195,17 @@ public class Book   {
    * Get publishedDate
    * @return publishedDate
    **/
-  
+
   @Schema(example = "12-11-2024", description = "")
-  
+
 @Valid
-  public LocalDate getPublishedDate() {  
+  public LocalDate getPublishedDate() {
     return publishedDate;
   }
 
 
 
-  public void setPublishedDate(LocalDate publishedDate) { 
+  public void setPublishedDate(LocalDate publishedDate) {
     this.publishedDate = publishedDate;
   }
 
@@ -198,6 +219,7 @@ public class Book   {
     }
     Book book = (Book) o;
     return Objects.equals(this.id, book.id) &&
+            Objects.equals(this.bookName, book.bookName) &&
         Objects.equals(this.genre, book.genre) &&
         Objects.equals(this.authors, book.authors) &&
         Objects.equals(this.available, book.available) &&
@@ -206,21 +228,30 @@ public class Book   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, genre, authors, available, publishedDate);
+    return Objects.hash(id,bookName, genre, authors, available, publishedDate);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Book {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    bookName: ").append(toIndentedString(bookName)).append("\n");
     sb.append("    genre: ").append(toIndentedString(genre)).append("\n");
     sb.append("    authors: ").append(toIndentedString(authors)).append("\n");
     sb.append("    available: ").append(toIndentedString(available)).append("\n");
     sb.append("    publishedDate: ").append(toIndentedString(publishedDate)).append("\n");
     sb.append("}");
     return sb.toString();
+  }
+
+  public @NotNull @Size(min = 1, message = "Book name cannot be empty") String getBookName() {
+    return bookName;
+  }
+
+  public void setBookName(@NotNull @Size(min = 1, message = "Book name cannot be empty") String bookName) {
+    this.bookName = bookName;
   }
 
   /**

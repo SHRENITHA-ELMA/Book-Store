@@ -46,7 +46,7 @@ public interface BooksApi {
     @RequestMapping(value = "/books/availability",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Book>> booksAvailabilityGet();
+    ResponseEntity<List<Book>> findBooksAvailability();
 
 
     @Operation(summary = "Deletes book with given bookId", description = "Use this API to delete details of a book with given bookId", tags={  })
@@ -73,7 +73,7 @@ public interface BooksApi {
     @RequestMapping(value = "/books/{genre}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Book>> booksGenreGet(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("genre") String genre
+    ResponseEntity<List<Book>> findBooksGenre(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("genre") String genre
 );
 
 
@@ -85,7 +85,7 @@ public interface BooksApi {
     @RequestMapping(value = "/books",
         consumes = { "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<Void> booksPost(@Parameter(in = ParameterIn.DEFAULT, description = "Structure of a book", required=true, schema=@Schema()) @Valid @RequestBody Book body
+    ResponseEntity<Void> addBooks(@Parameter(in = ParameterIn.DEFAULT, description = "Structure of a book", required=true, schema=@Schema()) @Valid @RequestBody Book body
 );
 
 }

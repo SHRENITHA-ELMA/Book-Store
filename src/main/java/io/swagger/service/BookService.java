@@ -18,4 +18,6 @@ public interface BookService {
     void addBook(Book book);
 
     Optional<Book> findById(Integer bookId);
+
+    Optional<Book> findByBookName(String bookName);
 }
