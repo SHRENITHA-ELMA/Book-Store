@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor  // This generates the constructor for BookRepository automatically
+@RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
